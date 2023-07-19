@@ -1,22 +1,20 @@
+const { NODE_ENV, DEV_DB_URL } = process.env;
+const BD_URL = NODE_ENV === 'production' ? DEV_DB_URL : 'mongodb://0.0.0.0:27017/bitfilmsdb';
 require('dotenv').config();
 
-const allowedCors = [
-  'https://movies-explorer-pgk.nomoredomains.xyz',
-  'http://movies-explorer-pgk.nomoredomains.xyz',
-  'http://localhost:3001',
-  'http://localhost:3000',
-];
+const express = require('express');
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
+
+const cors = require('cors');
+const { allowedCors } = require('./utils/constants');
 
 const corsOptions = {
   credentials: true,
   origin: allowedCors,
 };
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
-const { errors } = require('celebrate');
-const cors = require('cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes');
 const errorHandler = require('./middlewares/error');
@@ -26,7 +24,7 @@ const app = express();
 
 app.use(cors(corsOptions));
 
-mongoose.connect('mongodb://0.0.0.0:27017/bitfilmsdb', {
+mongoose.connect(BD_URL, {
   useNewUrlParser: true,
 });
 

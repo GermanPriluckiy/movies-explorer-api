@@ -16,3 +16,7 @@
 ## Ссылка на проект 
 
 https://github.com/GermanPriluckiy/movies-explorer-api
+
+## Ссылка на бекенд 
+
+https://api.movies-explorer-pgk.nomoredomains.xyz
