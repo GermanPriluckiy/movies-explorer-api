@@ -88,11 +88,11 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => res.send({ user }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.code === 11000) {
+        next(new AlreadyUseError('Пользователь с такой почтой уже существует'));
+      } else if (err.name === 'ValidationError') {
         next(
-          new IncorrectDataError(
-            'Некорректные данные при обновлении информации',
-          ),
+          new IncorrectDataError('Неверные данные при обновлении пользователя'),
         );
       } else {
         next(err);
